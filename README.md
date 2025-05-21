@@ -27,17 +27,17 @@ f_i = d_{i-1} \oplus \left( b_{i-1} \land (c_{i-1} \oplus d_{i-1}) \right)
 
 if 20 ≤ i < 40:
 ```math
-f_{i} = b_{i-1} \oplus c_{i-1} \oplus d_{i-1}
+f_i = b_{i-1} \oplus c_{i-1} \oplus d_{i-1}
 ```
 
 if 40 ≤ i < 60:
 ```math
-f_{i} = (b_{i-1} \land c_{i-1}) \lor (b_{i-1} \land d_{i-1}) \lor (c_{i-1} \land d_{i-1})
+f_i = (b_{i-1} \land c_{i-1}) \lor (b_{i-1} \land d_{i-1}) \lor (c_{i-1} \land d_{i-1})
 ```
 
 if 60 ≤ i < 80:
 ```math
-f_{i} = b_{i-1} \oplus c_{i-1} \oplus d_{i-1}
+f_i = b_{i-1} \oplus c_{i-1} \oplus d_{i-1}
 ```
 
 SHA-1 Register Relations (Backward):
@@ -50,6 +50,27 @@ b_{i-1} = (c_i \ll 2) \mid (c_i \gg 30) \\
 a_{i-1} = b_i
 \end{cases}
 ```
+
+if 0 ≤ i < 20:
+```math
+f_{i-1} = e_i \oplus \left( \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land (d_i \oplus e_i) \right)
+```
+
+if 20 ≤ i < 40:
+```math
+f_{i-1} = \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \oplus d_i \oplus e_i
+```
+
+if 40 ≤ i < 60:
+```math
+f_{i-1} = (\left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land d_i) \lor (\left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land e_i) \lor (d_i \land e_i)
+```
+
+if 60 ≤ i < 80:
+```math
+f_{i-1} = \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \oplus d_i \oplus e_i
+```
+
 ## The Equation of *e*
 
 In SHA-1, some information is lost between rounds : the value of register *e* at round *i* is no longer accessible at round *i+1*.
