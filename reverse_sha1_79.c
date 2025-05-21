@@ -86,8 +86,7 @@ output reverse_sha1(int start_round, uint8_t *chunk, uint32_t a1, uint32_t b1, u
             f = b0 ^ c0 ^ d0;
         }
 
-        a_equation = _left_rotate(a0, 5) + f + k + w[i];
-        e0 = a1 - a_equation;
+        e0 = a1 - (_left_rotate(a0, 5) + f + k + w[i]);
 
         printf("i=%d : a = %u, b = %u, c = %u, d = %u, e = %u\n", i, a1, b1, c1, d1, e1);
 
