@@ -12,8 +12,10 @@ This repository is a reflection on the impossibility of reversing data from a SH
 ```math
 registers = 
 \begin{cases}
+a_i = \_left\_rotate(a_{i-1}, 5) + f_i + e_{i-1} + k + w_i \\
 a_i = \left( (a_{i-1} \ll 5) \mid (a_{i-1} \gg 27) \right) + f_i + e_{i-1} + k + w_i \\
 b_i = a_{i-1} \\
+c_i = \_left\_rotate(b_{i-1}, 30) \\
 c_i = (b_{i-1} \ll 30) \mid (b_{i-1} \gg 2) \\
 d_i = c_{i-1} \\
 e_i = d_{i-1}
@@ -47,6 +49,7 @@ registers =
 \begin{cases}
 d_{i-1} = e_i \\
 c_{i-1} = d_i \\
+b_{i-1} = \_left\_rotate(c_i, 2) \\
 b_{i-1} = (c_i \ll 2) \mid (c_i \gg 30) \\
 a_{i-1} = b_i
 \end{cases}
@@ -54,22 +57,34 @@ a_{i-1} = b_i
 
 if 0 ≤ *i* < 20 :
 ```math
-f_{i-1} = e_i \oplus \left( \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land (d_i \oplus e_i) \right)
+\begin{align}
+f_{i-1} &= e_i \oplus \left( \_left\_rotate(c_i, 2) \land (d_i \oplus e_i) \right) \\
+f_{i-1} &= e_i \oplus \left( \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land (d_i \oplus e_i) \right)
+\end{align}
 ```
 
 if 20 ≤ *i* < 40 :
 ```math
-f_{i-1} = \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \oplus d_i \oplus e_i
+\begin{align}
+f_{i-1} &= \_left\_rotate(c_i, 2) \oplus d_i \oplus e_i \\
+f_{i-1} &= \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \oplus d_i \oplus e_i
+\end{align}
 ```
 
 if 40 ≤ *i* < 60 :
 ```math
-f_{i-1} = (\left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land d_i) \lor (\left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land e_i) \lor (d_i \land e_i)
+\begin{align}
+f_{i-1} &= (\_left\_rotate(c_i, 2) \land d_i) \lor (\_left\_rotate(c_i, 2) \land e_i) \lor (d_i \land e_i) \\
+f_{i-1} &= (\left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land d_i) \lor (\left( (c_i \ll 2) \mid (c_i \gg 30) \right) \land e_i) \lor (d_i \land e_i)
+\end{align}
 ```
 
 if 60 ≤ *i* < 80 :
 ```math
-f_{i-1} = \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \oplus d_i \oplus e_i
+\begin{align}
+f_{i-1} &= \_left\_rotate(c_i, 2) \oplus d_i \oplus e_i \\
+f_{i-1} &= \left( (c_i \ll 2) \mid (c_i \gg 30) \right) \oplus d_i \oplus e_i
+\end{align}
 ```
 
 ## The Equation of *e*
@@ -79,13 +94,19 @@ In SHA-1, some information is lost between rounds : the value of register *e* at
 However, we can use the equation of *a[i+1]* to recover *e[i]*, provided we have the initial data (*w*). While *e[i]* appears to be lost at round *i+1*, the definition of *a[i+1]* is:
 
 ```math
-a_{i+1} = \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + e_i + k + w_{i+1}
+\begin{align}
+a_{i+1} &= \_left\_rotate(a_i, 5) + f_{i+1} + e_i + k + w_{i+1} \\
+a_{i+1} &= \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + e_i + k + w_{i+1}
+\end{align}
 ```
 
 Which is equivalent to :
 
 ```math
-a_{i+1} = \left( (b_{i+1} \ll 5) \mid (b_{i+1} \gg 27) \right) + f_{i+1} + e_i + k + w_{i+1}
+\begin{align}
+a_{i+1} &= \_left\_rotate(b_{i+1}, 5) + f_{i+1} + e_i + k + w_{i+1} \\
+a_{i+1} &= \left( (b_{i+1} \ll 5) \mid (b_{i+1} \gg 27) \right) + f_{i+1} + e_i + k + w_{i+1}
+\end{align}
 ```
 <br>
 
@@ -106,6 +127,6 @@ The operation from *w[16]* to *w[79]* is :
 ```math
 \begin{align}
 w_{i} &= \_left\_rotate\big( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i - 16},\, 1 \big) \\
-w_{i} &= \left( \left( w_{i - 3} \oplus w{i - 8} \oplus w_{i - 14} \oplus w_{i - 16} \right) \ll 1 \right) \mid \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i - 16} \right) \gg 31 \right)
+w_{i} &= \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i - 16} \right) \ll 1 \right) \mid \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i - 16} \right) \gg 31 \right)
 \end{align}
 ```
