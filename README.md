@@ -132,7 +132,7 @@ w_{i} &= \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i 
 ```
 <br>
 
-But even if you know the result of the equation (*w[i]*), there are still too many possible values.
+But even if you know the result of the equation (*w[i]*), there are still too many possible values.  
 For example, let's take *w[50]* = 1000:
 
 ```math
