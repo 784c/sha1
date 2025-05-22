@@ -94,7 +94,7 @@ And since we know the initial data, we also know *w[i]*, so the only unknown in 
 ```math
 \begin{align}
 e_i &= a_{i+1} - \left( \_left\_rotate(a_i, 5) + f_{i+1} + k + w_{i+1} \right) \\
-e_{i} &= a_{i+1} - \left( \left( a_{i} \ll 5 \mid a_{i} \gg 27 \right) + f_{i+1} + k + w_{i+1} \right)
+e_{i} &= a_{i+1} - \left( \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + k + w_{i+1} \right)
 \end{align}
 ```
 
