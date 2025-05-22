@@ -130,3 +130,13 @@ w_{i} &= \_left\_rotate\big( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus
 w_{i} &= \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i - 16} \right) \ll 1 \right) \mid \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i - 16} \right) \gg 31 \right)
 \end{align}
 ```
+<br>
+
+But even if you know the result of the equation (*w[i]*), there are still too many possible values.
+For example, let's take *w[50]* = 1000:
+
+```math
+\begin{align}
+w_{50} = \_left\_rotate\big( w_{47} \oplus w_{42} \oplus w_{36} \oplus w_{34},\, 1 \big) = 1000
+\end{align}
+```
