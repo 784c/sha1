@@ -5,6 +5,7 @@ This repository is a reflection on the impossibility of reversing data from a SH
  - [Basic Knowledge](#basic-knowledge)
  - [The Equation of e](#the-equation-of-e)
  - [The Equation of w](#the-equation-of-w)
+ - [The Equation with two unknowns](the-equation-with-two-unknowns)
 
 ## Basic Knowledge
 
@@ -12,8 +13,8 @@ This repository is a reflection on the impossibility of reversing data from a SH
 ```math
 registers = 
 \begin{cases}
-a_i = \_left\_rotate(a_{i-1}, 5) + f_i + e_{i-1} + k + w_i \\
-a_i = \left( (a_{i-1} \ll 5) \mid (a_{i-1} \gg 27) \right) + f_i + e_{i-1} + k + w_i \\
+a_i = \_left\_rotate(a_{i-1}, 5) + f_i + e_{i-1} + k_{i} + w_i \\
+a_i = \left( (a_{i-1} \ll 5) \mid (a_{i-1} \gg 27) \right) + f_i + e_{i-1} + k_{i} + w_i \\
 b_i = a_{i-1} \\
 c_i = \_left\_rotate(b_{i-1}, 30) \\
 c_i = (b_{i-1} \ll 30) \mid (b_{i-1} \gg 2) \\
@@ -95,8 +96,8 @@ However, we can use the equation of *a[i+1]* to recover *e[i]*, provided we have
 
 ```math
 \begin{align}
-a_{i+1} &= \_left\_rotate(a_i, 5) + f_{i+1} + e_i + k + w_{i+1} \\
-a_{i+1} &= \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + e_i + k + w_{i+1}
+a_{i+1} &= \_left\_rotate(a_i, 5) + f_{i+1} + e_i + k_{i+1} + w_{i+1} \\
+a_{i+1} &= \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + e_i + k_{i+1} + w_{i+1}
 \end{align}
 ```
 
@@ -104,8 +105,8 @@ Which is equivalent to :
 
 ```math
 \begin{align}
-a_{i+1} &= \_left\_rotate(b_{i+1}, 5) + f_{i+1} + e_i + k + w_{i+1} \\
-a_{i+1} &= \left( (b_{i+1} \ll 5) \mid (b_{i+1} \gg 27) \right) + f_{i+1} + e_i + k + w_{i+1}
+a_{i+1} &= \_left\_rotate(b_{i+1}, 5) + f_{i+1} + e_i + k_{i+1} + w_{i+1} \\
+a_{i+1} &= \left( (b_{i+1} \ll 5) \mid (b_{i+1} \gg 27) \right) + f_{i+1} + e_i + k_{i+1} + w_{i+1}
 \end{align}
 ```
 <br>
@@ -114,8 +115,8 @@ And since we know the initial data, we also know *w[i]*, so the only unknown in 
 
 ```math
 \begin{align}
-e_i &= a_{i+1} - \left( \_left\_rotate(a_i, 5) + f_{i+1} + k + w_{i+1} \right) \\
-e_{i} &= a_{i+1} - \left( \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + k + w_{i+1} \right)
+e_i &= a_{i+1} - \left( \_left\_rotate(a_i, 5) + f_{i+1} + k_{i+1} + w_{i+1} \right) \\
+e_{i} &= a_{i+1} - \left( \left( (a_i \ll 5) \mid (a_i \gg 27) \right) + f_{i+1} + k_{i+1} + w_{i+1} \right)
 \end{align}
 ```
 
@@ -138,5 +139,16 @@ For example, let's take *w[50]* = 1000:
 ```math
 \begin{align}
 w_{50} = \_left\_rotate\big( w_{47} \oplus w_{42} \oplus w_{36} \oplus w_{34},\, 1 \big) = 1000
+\end{align}
+```
+
+## The Equation with two unknowns
+
+As mentioned earlier, completing the equation for *e* requires knowing *w*, and computing *w* depends on the initial data. The most challenging part is that brute-forcing offers no clear stopping point : if you try to brute-force *w* in order to solve the *e* equation, there's no way to verify whether the current value of *w* is actually correct.  
+
+```math
+\begin{align}
+w_{i} = a_{i} - \big( \_left\_rotate(a_{i-1},\, 5) + f_{i} + e_{i-1} + k_{i} \big) \\
+w_{i} = a_{i} - \big( \big( (a_{i-1} \ll 5) \mid (a_{i-1} \gg 27) \big) + f_{i} + e_{i-1} + k_{i} \big)
 \end{align}
 ```
