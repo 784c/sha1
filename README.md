@@ -5,7 +5,7 @@ This repository is a reflection on the impossibility of reversing data from a SH
  - [Basic Knowledge](#basic-knowledge)
  - [The Equation of e](#the-equation-of-e)
  - [The Equation of w](#the-equation-of-w)
- - [The Equation with two unknowns](the-equation-with-two-unknowns)
+ - [The Equation with two unknowns](#the-equation-with-two-unknowns)
 
 ## Basic Knowledge
 
@@ -144,7 +144,7 @@ w_{50} = \_left\_rotate\big( w_{47} \oplus w_{42} \oplus w_{36} \oplus w_{34},\,
 
 ## The Equation with two unknowns
 
-As mentioned earlier, completing the equation for *e* requires knowing *w*, and computing *w* depends on the initial data. The most challenging part is that brute-forcing offers no clear stopping point : if you try to brute-force *w* in order to solve the *e* equation, there's no way to verify whether the current value of *w* is actually correct.  
+As mentioned earlier, completing the equation for *e* requires knowing *w*, and computing *w* depends on the initial data or depends on *e*. The most challenging part is that brute-forcing offers no clear stopping point : if you try to brute-force *w* in order to solve the *e* equation, there's no way to verify whether the current value of *w* is actually correct.  
 
 ```math
 \begin{align}
