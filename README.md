@@ -132,9 +132,18 @@ w_{i} &= \left( \left( w_{i - 3} \oplus w_{i - 8} \oplus w_{i - 14} \oplus w_{i 
 \end{align}
 ```
 <br>
+And the equation is :
+
+```math
+\begin{align}
+w_{i} &= a_{i} - \big( \_left\_rotate(a_{i-1},\, 5) + f_{i} + e_{i-1} + k_{i} \big) \\
+w_{i} &= a_{i} - \big( \big( (a_{i-1} \ll 5) \mid (a_{i-1} \gg 27) \big) + f_{i} + e_{i-1} + k_{i} \big)
+\end{align}
+```
+<br>
 
 But even if you know the result of the equation (*w[i]*), there are still too many possible values.  
-For example, let's take *w[50]* = 1000:
+For example, let's take *w[50]* = 1000 :
 
 ```math
 \begin{align}
@@ -142,13 +151,13 @@ w_{50} = \_left\_rotate\big( w_{47} \oplus w_{42} \oplus w_{36} \oplus w_{34},\,
 \end{align}
 ```
 
+According to [possibilities.py](https://github.com/784c/sha1/blob/main/scripts/possibilities.py) (wich is a bit broken for the moment) :  
+- There are 64 possible values for `((a_b_c ^ d) << 1) | ((a_b_c ^ d) >> 31) = 1000`
+- Based on those, there are 32 768 possibilities for solving `(a_b ^ c) = a_b_c`
+- And from those, there are 16 777 216 possibilities for solving `(a ^ b) = a_b`
+
 ## The Equation with two unknowns
 
 As mentioned earlier, completing the equation for *e* requires knowing *w*, and computing *w* depends on the initial data or depends on *e*. The most challenging part is that brute-forcing offers no clear stopping point : if you try to brute-force *w* in order to solve the *e* equation, there's no way to verify whether the current value of *w* is actually correct.  
 
-```math
-\begin{align}
-w_{i} = a_{i} - \big( \_left\_rotate(a_{i-1},\, 5) + f_{i} + e_{i-1} + k_{i} \big) \\
-w_{i} = a_{i} - \big( \big( (a_{i-1} \ll 5) \mid (a_{i-1} \gg 27) \big) + f_{i} + e_{i-1} + k_{i} \big)
-\end{align}
-```
+The real challenge in SHA-1 is finding *w* without knowing *e*, or *e* without knowing *w*. If you succeed, recovering the initial data becomes possible, since the remaining equation then has only one unknown.
