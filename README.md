@@ -158,6 +158,4 @@ According to [possibilities.py](https://github.com/784c/sha1/blob/main/scripts/p
 
 ## The Equation with two unknowns
 
-As mentioned earlier, completing the equation for *e* requires knowing *w*, and computing *w* depends on the initial data or depends on *e*. The most challenging part is that brute-forcing offers no clear stopping point : if you try to brute-force *w* in order to solve the *e* equation, there's no way to verify whether the current value of *w* is actually correct.  
-
-The real challenge in SHA-1 is finding *w* without knowing *e*, or *e* without knowing *w*. If you succeed, recovering the initial data becomes possible, since the remaining equation then has only one unknown.
+The main challenge in reversing SHA-1 stems from the circular dependency between *w* and *e* : each depends on the other to be computed (or on the initial data for *w*). Since brute-forcing provides no way to validate partial results, breaking this dependency is essential. If you manage to recover either *w* or *e*, the rest of the data can be deduced, as the equation then has only one unknown.
