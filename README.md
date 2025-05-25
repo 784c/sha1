@@ -158,4 +158,45 @@ According to [possibilities.py](https://github.com/784c/sha1/blob/main/scripts/p
 
 ## The Equation with two unknowns
 
-The main challenge in reversing SHA-1 stems from the circular dependency between *w* and *e* : each depends on the other to be computed (or on the initial data for *w*). Since brute-forcing provides no way to validate partial results, breaking this dependency is essential. If you manage to recover either *w* or *e*, the rest of the data can be deduced, as the equation then has only one unknown.
+The main challenge in reversing SHA-1 stems from the circular dependency between *w* and *e* : each depends on the other to be computed (or on the initial data for *w*). Since brute-forcing provides no way to validate partial results, breaking this dependency is essential. If you manage to recover either *w* or *e*, the rest of the data can be deduced, as the equation then has only one unknown.  
+
+## Notes
+
+```
+i=79 : a = 2652194797, b = 1475121602, c = 821726152, d = 3346553428, e = 2817500643, k = 3395469782, w = 0
+i=78 : a = ?, b = ?, c = ?, d = ?, e = ?, w = ?
+
+d78 = e79 = 2817500643
+c78 = d79 = 3346553428
+b78 = _right_rotate(c79, 30) = 3286904608
+a78 = b79 = 1475121602
+
+f79 = b78 ^ c78 ^ d78 = 3286904608 ^ 3346553428 ^ 2817500643 = 2742931607
+
+e78 = (a79 - (_left_rotate(a78, 5) + f79 + k79 + w79)) & 0xffffffff
+e78 = (2652194797 - (_left_rotate(1475121602, 5) + 2742931607 + 3395469782 + 0)) & 0xffffffff
+e78 = (2652194797 - (((1475121602 << 5) | (1475121602 >> 27)) + 2742931607 + 3395469782 + 0)) & 0xffffffff = 849509686
+
+i=78 : a = 1475121602, b = 3286904608, c = 3346553428, d = 2817500643, e = 849509686, w = ?
+
+e77 = d76 = c75 = _left_rotate(b74, 30) = a73
+```
+
+```
+i=77 : a = ?, b = ?, c = ?, d = ?, e = ?, w = ?
+i=76 : a = 501311827, b = 2680067982, c = 849509686, d = 2274835022, e = 315519473, w = 0
+
+e77 = d76 = 2274835022
+d77 = c76 = 849509686
+c77 = _left_rotate(b76, 30) = 2817500643
+b77 = a76 = 501311827
+
+f77 = b76 ^ c76 ^ d76 = 2680067982 ^ 849509686 ^ 2274835022 = 713806070
+
+a77 = (_left_rotate(a76, 5) + f77 + e76 + k77 + w77) & 0xffffffff
+a77 = (_left_rotate(501311827, 5) + 713806070 + 315519473 + 3395469782 + w77) & 0xffffffff
+a77 = (((501311827 << 5) | (501311827 >> 27)) + 713806070 + 315519473 + 3395469782 + w77) & 0xffffffff
+a77 = (20466773792 + ?) & 0xffffffff = ?
+
+i=77 : a = ?, b = 501311827, c = 2817500643, d = 849509686, e = 2274835022, w = ?
+```
