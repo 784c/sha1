@@ -272,7 +272,7 @@ so :
 
 a78 = (_left_rotate(a77, 5) + f78 + e77 + k78 + w78) & 0xffffffff = 1475121602
 a78 = (_left_rotate(b78, 5) + f78 + e77 + k78 + w78) & 0xffffffff = 1475121602
-a78 = (_left_rotate(3286904608, 5) + 2293019014 + e77 + 3395469782 + w69) & 0xffffffff = 1475121602
+a78 = (_left_rotate(3286904608, 5) + 2293019014 + e77 + 3395469782 + w78) & 0xffffffff = 1475121602
 a78 = (7790221172 + e77 + w78) & 0xffffffff = 1475121602
 
 7790221172 & 0xffffffff = 3495253876 --> size of what we know
