@@ -199,7 +199,7 @@ a69 = (8749620658 + e68 + w69) & 0xffffffff = 3779606719
 but we need to verify this result :
 
 if e68 = 0 and w69 = 3619920653:
-    f68 = 3525425585 ^ 2139799467 ^ 0 = 2913666586 because f68 = b67 ^ c67 ^ d67 et d67 = e68
+    f68 = 3525425585 ^ 2139799467 ^ 0 = 2913666586 because f68 = b67 ^ c67 ^ d67 and d67 = e68
 
     a68 = 1129336465
     a68 = (_left_rotate(a67, 5) + f68 + e67 + k68 + w68) & 0xffffffff = 1129336465
@@ -207,12 +207,12 @@ if e68 = 0 and w69 = 3619920653:
     a68 = (_left_rotate(3726301299, 5) + 2913666586 + e67 + 3395469782 + w68) & 0xffffffff = 1129336465
     a68 = (9586660971 + e67 + w68) & 0xffffffff = 1129336465
     
-    9586660971 & 0xffffffff = 996726379 --> size de ce qu'on connait : _left_rotate(a67, 5) + f68 + k68
-    1129336465 - 996726379 = 132610086 --> size de ce qu'on ne connait pas : e67 + w68
+    9586660971 & 0xffffffff = 996726379 --> size of what we know : _left_rotate(a67, 5) + f68 + k68
+    1129336465 - 996726379 = 132610086 --> size of unknowns : e67 + w68
     e67 + w68 = 132610086
 
 if e68 = 3619920653 and w69 = 0:
-    f68 = 3525425585 ^ 2139799467 ^ 3619920653 = 2053676311 because f68 = b67 ^ c67 ^ d67 et d67 = e68
+    f68 = 3525425585 ^ 2139799467 ^ 3619920653 = 2053676311 because f68 = b67 ^ c67 ^ d67 and d67 = e68
 
     a68 = 1129336465
     a68 = (_left_rotate(a67, 5) + f68 + e67 + k68 + w68) & 0xffffffff = 1129336465
