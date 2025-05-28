@@ -304,4 +304,54 @@ Let's take e77 = 0, w78 = 2274835022 for example :
     a77 = (6552546361 + f77 + e76 + w77) & 0xffffffff = b78 = 3286904608
 
     The idea was to compare the sum of what we know in the equation, but it's impossible because f77 depends on e77 (d76 = e77) --> another unknown.
+    But there is still a thing that looks interessant : if we choose a value for e[i], d[i-1] is impacted and f[i] in a[i] too.
+    Maybe an idea to verify the value that we choosed.
+```
+
+```
+a[i]   = _left_rotate(a[i-1], 5) + f[i] + e[i-1] + k[i] + w[i]
+a[i-1] = b[i]
+
+b[i]   = a[i-1]
+b[i-1] = _left_rotate(c[i], 2)
+
+c[i]   = _left_rotate(b[i-1], 30)
+c[i-1] = d[i]
+
+d[i]   = c[i-1]
+d[i-1] = e[i]
+
+e[i]   = d[i-1]
+e[i-1] = a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])
+
+w[i]   = a[i] - (_left_rotate(a[i-1], 5) + f[i] + e[i-1] + k[i])
+w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + f[i-1] + e[i-2] + k[i-1])
+
+if 0 =< i < 20 :
+    f[i]   = d[i-1] ^ (b[i-1] & (c[i-1] ^ d[i-1]))
+
+    f[i-1] = d[i-2] ^ (b[i-2] & (c[i-2] ^ d[i-2]))
+    f[i-1] = e[i-1] ^ (_left_rotate(c[i-1], 2) & (d[i-1] ^ e[i-1]))
+    f[i-1] = (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) : OK
+
+if 20 =< i < 40 :
+    f[i]   = b[i-1] ^ c[i-1] ^ d[i-1]
+
+    f[i-1] = b[i-2] ^ c[i-2] ^ d[i-2]
+    f[i-1] = _left_rotate(c[i-1], 2) ^ d[i-1] ^ e[i-1]
+    f[i-1] = _left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) : OK
+
+if 40 =< i < 60 :
+    f[i]   = (b[i-1] & c[i-1]) | (b[i-1] & d[i-1]) | (c[i-1] & d[i-1])
+
+    f[i-1] = (b[i-2] & c[i-2]) | (b[i-2] & d[i-2]) | (c[i-2] & d[i-2])
+    f[i-1] = (_left_rotate(c[i-1], 2) & d[i-1]) | (_left_rotate(c[i-1], 2) & e[i-1]) | (d[i-1] & e[i-1])
+    f[i-1] = (_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) : OK
+
+if 60 =< i < 80 :
+    f[i]   = b[i-1] ^ c[i-1] ^ d[i-1]
+
+    f[i-1] = b[i-2] ^ c[i-2] ^ d[i-2]
+    f[i-1] = _left_rotate(c[i-1], 2) ^ d[i-1] ^ e[i-1]
+    f[i-1] = _left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) : OK
 ```
