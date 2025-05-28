@@ -333,6 +333,8 @@ if 0 =< i < 20 :
     f[i-1] = d[i-2] ^ (b[i-2] & (c[i-2] ^ d[i-2]))
     f[i-1] = e[i-1] ^ (_left_rotate(c[i-1], 2) & (d[i-1] ^ e[i-1]))
     f[i-1] = (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) : OK
+    
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))) + e[i-2] + k[i-1])
 
 if 20 =< i < 40 :
     f[i]   = b[i-1] ^ c[i-1] ^ d[i-1]
@@ -341,6 +343,8 @@ if 20 =< i < 40 :
     f[i-1] = _left_rotate(c[i-1], 2) ^ d[i-1] ^ e[i-1]
     f[i-1] = _left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) : OK
 
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + e[i-2] + k[i-1]) : OK
+
 if 40 =< i < 60 :
     f[i]   = (b[i-1] & c[i-1]) | (b[i-1] & d[i-1]) | (c[i-1] & d[i-1])
 
@@ -348,10 +352,14 @@ if 40 =< i < 60 :
     f[i-1] = (_left_rotate(c[i-1], 2) & d[i-1]) | (_left_rotate(c[i-1], 2) & e[i-1]) | (d[i-1] & e[i-1])
     f[i-1] = (_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) : OK
 
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) + e[i-2] + k[i-1])
+
 if 60 =< i < 80 :
     f[i]   = b[i-1] ^ c[i-1] ^ d[i-1]
 
     f[i-1] = b[i-2] ^ c[i-2] ^ d[i-2]
     f[i-1] = _left_rotate(c[i-1], 2) ^ d[i-1] ^ e[i-1]
     f[i-1] = _left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) : OK
+    
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + e[i-2] + k[i-1]) : OK
 ```
