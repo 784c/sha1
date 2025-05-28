@@ -193,7 +193,7 @@ a69 = (_left_rotate(1129336465, 5) + 3575122356 + e68 + 3395469782 + w69) & 0xff
 a69 = (8749620658 + e68 + w69) & 0xffffffff = 3779606719
 
 8749620658 & 0xffffffff = 159686066
-3779606719 - 159686066 = 3619920653
+(3779606719 - 159686066) & 0xffffffff = 3619920653
 (e68 + w69) & 0xffffffff = 3619920653
 
 but we need to verify this result :
@@ -303,5 +303,5 @@ Let's take e77 = 0, w78 = 2274835022 for example :
     a77 = (_left_rotate(501311827, 5) + f77 + e76 + 3395469782 + w77) & 0xffffffff = b78 = 3286904608
     a77 = (6552546361 + f77 + e76 + w77) & 0xffffffff = b78 = 3286904608
 
-    impossible because f77 depend on e76 --> another unknown.
+    The idea was to compare the sum of what we know in the equation, but it's impossible because f77 depends on e77 (d76 = e77) --> another unknown.
 ```
