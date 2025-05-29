@@ -373,8 +373,34 @@ if 60 =< i < 80 :
     w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + e[i-2] + k[i-1])
     e[i-2] = b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])
 
-    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1]) : OK
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1])
 
 The real problem is here, the circular dependency : we need w[i-1] to solve w[i-1].
 Because we need w[i] to solve e[i-1] and e[i-1] to solve w[i].
+We need a way to get e[i-1] without w[i] or w[i] without e[i-1].
+
+e[i-1] = a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])
+f[i-1] = b[i-2] ^ c[i-2] ^ d[i-2] = _left_rotate(c[i-1], 2) ^ d[i-1] ^ e[i-1]
+
+to get e[77] we need f[77], let's take for example f[77] = 1000 :
+f[77] = _left_rotate(c[i-1], 2) ^ d[i-1] ^ e[i-1] = _left_rotate(d[i], 2) ^ e[i] ^ e[i-1] = 1000
+f[77] = _left_rotate(d[77], 2) ^ e[77] ^ e[i-1] = 1000
+
+But how to get f[77] ?
+f[77] = a[77] - (_left_rotate(a[76], 5) + e[76] + k[77] + w[77])
+But we don't have e[76] and w[77].
+```
+
+```
+i=79 : a = 2652194797, b = 1475121602, c = 821726152, d = 3346553428, e = 2817500643, w = 0
+i=78 : a = 1475121602, b = 3286904608, c = 3346553428, d = 2817500643, e = 849509686, w = ?
+i=77 : a = ?, b = ?, c = ?, d = ?, e = 2274835022, w = ?
+
+a77 = 3286904608
+b77 = _left_rotate(3346553428, 2) = 501311827
+c77 = 2817500643
+d77 = 849509686
+
+w[78] = a[78] - (_left_rotate(a[77], 5) + e[77] + k[78] + f[78])
+w[78] = 1475121602 - (_left_rotate(3286904608, 5) + 2274835022 + 3395469782 + (501311827 ^ 2817500643 ^ 849509686)) = 0
 ```
