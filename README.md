@@ -366,5 +366,6 @@ if 60 =< i < 80 :
 
     w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1])
 
-    The real problem is here, the circular dependency : we need w[i-1] to solve w[i-1]...
+    The real problem is here, the circular dependency : we need w[i-1] to solve w[i-1].
+    Because we need w[i] to solve e[i-1] and e[i-1] to solve w[i].
 ```
