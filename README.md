@@ -335,9 +335,9 @@ if 0 =< i < 20 :
     f[i-1] = (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))
     
     w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))) + e[i-2] + k[i-1])
-    e[i-2] = b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])
+    e[i-2] = b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + ((a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))) + k[i-1] + w[i-1])
 
-    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1])
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + ((a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])) ^ (_left_rotate(d[i], 2) & (e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))))) + k[i-1] + w[i-1])) + k[i-1])
 
 if 20 =< i < 40 :
     f[i]   = b[i-1] ^ c[i-1] ^ d[i-1]
@@ -359,9 +359,9 @@ if 40 =< i < 60 :
     f[i-1] = (_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))
 
     w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) + e[i-2] + k[i-1])
-    e[i-2] = b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])
+    e[i-2] = b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + ((_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) + k[i-1] + w[i-1])
 
-    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1])
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + ((_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + ((_left_rotate(d[i], 2) & e[i]) | (_left_rotate(d[i], 2) & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) | (e[i] & (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i])))) + k[i-1] + w[i-1])) + k[i-1])
 
 if 60 =< i < 80 :
     f[i]   = b[i-1] ^ c[i-1] ^ d[i-1]
@@ -373,7 +373,7 @@ if 60 =< i < 80 :
     w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + e[i-2] + k[i-1])
     e[i-2] = b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])
 
-    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1])
+    w[i-1] = b[i] - (_left_rotate(_left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + (b[i] - (_left_rotate( _left_rotate(c[i], 2), 5) + (_left_rotate(d[i], 2) ^ e[i] ^ (a[i] - (_left_rotate(b[i], 5) + f[i] + k[i] + w[i]))) + k[i-1] + w[i-1])) + k[i-1]) : OK
 
 The real problem is here, the circular dependency : we need w[i-1] to solve w[i-1].
 Because we need w[i] to solve e[i-1] and e[i-1] to solve w[i].
