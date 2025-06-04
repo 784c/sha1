@@ -7,12 +7,12 @@ def _right_rotate(n, b):
 def setup_chunk(chunk):
     return bytearray.fromhex(chunk.replace(' ', ''))
 
-def reverse_sha1(start_round, chunk, a_i_plus_1, b_i_plus_1, c_i_plus_1, d_i_plus_1, e_i_plus_1, e_list):
-    start_a = a_i_plus_1
-    start_b = b_i_plus_1
-    start_c = c_i_plus_1
-    start_d = d_i_plus_1
-    start_e = e_i_plus_1
+def reverse_sha1(start_round, chunk, start_a, start_b, start_c, start_d, start_e, e_list):
+    a_i_plus_1 = start_a
+    b_i_plus_1 = start_b
+    c_i_plus_1 = start_c
+    d_i_plus_1 = start_d
+    e_i_plus_1 = start_e
 
     k_list = [1518500249] * 20 + [1859775393] * 20 + [2400959708] * 20 + [3395469782] * 20
 
