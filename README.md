@@ -441,13 +441,13 @@ Odd round (row in which e and w are already known) :
     c[i] = d[i+1]
     d[i] = e[i+1]
 
-    si 0 <= i < 20:
+    if 0 <= i < 20:
         f[i] = d[i-1] ^ (b[i-1] & (c[i-1] ^ d[i-1])) = e[i] ^ (_left_rotate(c[i], 2) & (d[i] ^ e[i]))
-    si 20 <= i < 40:
+    if 20 <= i < 40:
         f[i] = b[i-1] ^ c[i-1] ^ d[i-1] = _left_rotate(c[i], 2) ^ d[i] ^ e[i]
-    si 40 <= i < 60:
+    if 40 <= i < 60:
         f[i] = (b[i-1] & c[i-1]) | (b[i-1] & d[i-1]) | (c[i-1] & d[i-1]) = (_left_rotate(c[i], 2) & d[i]) | (_left_rotate(c[i], 2) & e[i]) | (d[i] & e[i])
-    si 60 <= i < 80:
+    if 60 <= i < 80:
         f[i] = b[i-1] ^ c[i-1] ^ d[i-1] = _left_rotate(c[i], 2) ^ d[i] ^ e[i]
 
 Even round (blank row)
@@ -456,24 +456,24 @@ Even round (blank row)
     c[i] = d[i+1]
     d[i] = e[i+1]
 
-    si 0 <= i < 20:
+    if 0 <= i < 20:
         f[i+1] = d[i] ^ (b[i] & (c[i] ^ d[i]))
-    si 20 <= i < 40:
+    if 20 <= i < 40:
         f[i+1] = b[i] ^ c[i] ^ d[i]
-    si 40 <= i < 60:
+    if 40 <= i < 60:
         f[i+1] = (b[i] & c[i]) | (b[i] & d[i]) | (c[i] & d[i])
-    si 60 <= i < 80:
+    if 60 <= i < 80:
         f[i+1] = b[i] ^ c[i] ^ d[i]
 
     e[i] = a[i+1] - (_left_rotate(a[i], 5) + f[i+1] + k[i+1] + w[i+1])
 
-    si 0 <= i < 20:
+    if 0 <= i < 20:
         f[i] = d[i-1] ^ (b[i-1] & (c[i-1] ^ d[i-1])) = e[i] ^ (_left_rotate(c[i], 2) & (d[i] ^ e[i]))
-    si 20 <= i < 40:
+    if 20 <= i < 40:
         f[i] = b[i-1] ^ c[i-1] ^ d[i-1] = _left_rotate(c[i], 2) ^ d[i] ^ e[i]
-    si 40 <= i < 60:
+    if 40 <= i < 60:
         f[i] = (b[i-1] & c[i-1]) | (b[i-1] & d[i-1]) | (c[i-1] & d[i-1]) = (_left_rotate(c[i], 2) & d[i]) | (_left_rotate(c[i], 2) & e[i]) | (d[i] & e[i])
-    si 60 <= i < 80:
+    if 60 <= i < 80:
         f[i] = b[i-1] ^ c[i-1] ^ d[i-1] = _left_rotate(c[i], 2) ^ d[i] ^ e[i]
 
     a[i-1] = b[i]
