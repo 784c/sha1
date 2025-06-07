@@ -563,9 +563,11 @@ e_w & 11111111111111111111111111111111 = 11010111110000111001101100001101
 
 There are 2^32 possibilities for e and 2^32 for w, which makes 2^64 theoretical combinations per round, 18446744073709551616 total possibilities.
 
-But according to possibilities.py (still broken), there are only 3619920654 valid (e + w) values that satisfy :
+There are only 3619920653 + 1 = 3619920654 valid (e + w) values that satisfy :
 (e + w) & 0xffffffff = 3619920653
 
 That means we've eliminated :
 18446744073709551616 - 3619920654 = 18446744070089630962 impossible combinations.
+
+Another example, (e + w) & 0xffffffff = 992600361 : possibilities = 992600361 + 1 = 992600362, 18446744073709551616 - 992600362 = 18446744072716951254 impossible combinations.
 ```
