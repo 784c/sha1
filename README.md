@@ -433,7 +433,7 @@ i=75 : a = 2680067982, b = 3398038744, c = 2274835022, d = ?, e = 4225431107, f 
 ```
 
 ```
-Semi SHA-1 :
+Semi reversed SHA-1 :
 
 Odd round (row in which e and w are already known) :
     a[i] = b[i+1]
@@ -515,4 +515,57 @@ i=39 : a = 2078076151, b = 2352833088, c = 3144677536, d = 2465103991, e = 74673
 i=38 : a = 2352833088, b = 3988775554, c = 2465103991, d = 746733994, e = 830707174, f = 1455150482, w = 0
 i=37 : a = 3988775554, b = 1270481374, c = 746733994, d = 830707174, e = 246108336, f = 2367800318, w = 0
 i=36 : a = ?, b = ?, c = ?, d = ?, e = ?, f = ?, w = ?
+```
+
+```
+40 rounds where we have to find two numbers between 0 and 4294967295 inclusive.
+Or 80 rounds where we have to find one number between 0 and 4294967295 inclusive.
+
+If we search for two unknowns over 40 rounds :
+2^32 x 2^32 = 2^64 for 1 round
+(2^64)^40 = 2^(64x40) = 2^2560 total possibilities.
+
+If we search for one unknown over 80 rounds :
+2^32 for 1 round
+(2^32)^80 = 2^(32x80) = 2^2560 total possibilities.
+
+So, the number of possibilities hasn't actually been reduced — what changes is the structure and the solving approach.
+What's beneficial is that, if for example we find a weakness in the relationship involving e, then the number of possibilities could be halved :
+2^32 for 1 round
+(2^32)^40 = 2^(32x40) = 2^1280 total possibilities.
+
+But :
+a2 = (3031962158 + w2) & 0xffffffff
+
+We know a2 is between 0 and 4294967295 inclusive, and :
+4294967295 - 3031962158 = 1263005137, so at first glance, it might seem like w2 must be between 0 and 1263005137. But there's a problem: the 0xffffffff mask.
+Even if w2 exceeds 1263005137, it can still produce a valid a2 due to the wraparound effect.
+Therefore, the range of possible w2 values remains [0; 4294967295], even after this.
+And without knowing the actual value of a2, we can't rule out even a single possible value for w2 in that range.
+
+But there's something else : reducing the number of valid pairs.
+At the very start of the analysis, I came across this kind of equation :
+
+(e + w) & 0xffffffff = 3619920653
+Here’s what we know :
+- e and w are both in [0; 4294967295]
+- The sum of e + w must be 3619920653 (with & 0xffffffff)
+
+Individually, we can’t rule out a single value in [0; 4294967295] for e or w.
+But when we consider the sum, it’s different.
+For instance: the pair e = 0 and w = 0 is invalid because (0 + 0) & 0xffffffff != 3619920653.
+
+So we can restrict the search space for pairs — for example, the pair (0, 0) is guaranteed to be useless.
+
+(e + w) & 0xffffffff = 3619920653
+Let’s call e_w = e + w :
+e_w & 11111111111111111111111111111111 = 11010111110000111001101100001101
+
+There are 2^32 possibilities for e and 2^32 for w, which makes 2^64 theoretical combinations per round, 18446744073709551616 total possibilities.
+
+But according to possibilities.py (still broken), there are only 3619920654 valid (e + w) values that satisfy :
+(e + w) & 0xffffffff = 3619920653
+
+That means we've eliminated :
+18446744073709551616 - 3619920654 = 18446744070089630962 impossible combinations.
 ```
